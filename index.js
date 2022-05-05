@@ -110,6 +110,8 @@ let dados_ano_ibov_percentage = []
 // label_mes = adicionar_a_lista(label_ano, label_mes, 20)
 
 
+// ----------------------------------------Scroll no grafico-----------------------------------------------------//
+
 function scroll_right(chart = myChart) {
     chart.options.scales.x.max += 6
     chart.options.scales.x.min += 6
@@ -357,14 +359,3 @@ const myChart = new Chart(
 // var t33 = document.getElementById("fodendo_teste")
 // t33.innerHTML = dados_ano_ibov_percentage[2]
                 
-                
-                
-
-// ----------------------------------------Scroll no grafico-----------------------------------------------------//
-
-// function testing_rola(chart = myChart) {
-    //     chart.options.scales.x.max = 6;
-    //     chart.update();
-    // }
-    
-// testing_rola()
