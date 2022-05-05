@@ -33,7 +33,7 @@
         <div id="chartbox">
             <div class="selection">
                 <label id="semana" onclick="graph_change()">
-                    <input type="radio" name="tempo" id="semanaradio" checked>
+                    <input type="radio" name="tempo" id="semanaradio">
                     <span>Semana</span>
                 </label>
                 <label id="mes" onclick="graph_change()">
@@ -41,11 +41,15 @@
                     <span>Mês</span>
                 </label>
                 <label id="ano" onclick="graph_change()">
-                    <input type="radio" name="tempo" id="anoradio">
+                    <input type="radio" name="tempo" id="anoradio" checked>
                     <span>Ano</span>
                 </label>
             </div>
-            <canvas id="graph"></canvas>
+            <div id="grafico">
+                <div class="seta" id="setaesquerda" onclick="scroll_left()"> &#x2190 </div>
+                <canvas id="graph"></canvas>
+                <div class="seta" id="setadireita" onclick="scroll_right()"> &#x2192 </div>
+            </div>
             <div class="selection">
                 <label id="total" onclick="total_viewer()">
                     <input type="radio" name="total" id="totalradio" checked>
