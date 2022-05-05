@@ -1,0 +1,138 @@
+:root {
+    --cor1 : #E8E1EF;
+    --cor2 : #56EEF4;
+    --cor3 : #38A3A5;
+    --cor4 : #357DED;
+    --cor5 : #5438DC;
+    --cor6 : #22175C;
+}
+
+/* --------------------------------------- */
+
+body {
+    background-color: var(--cor2);
+}
+
+main {
+    margin: 10px auto;
+    height: 97ch;
+    width: 98vw;    
+    background-image: linear-gradient(var(--cor5), var(--cor6) 90%);
+    border-radius: 5px;
+}
+
+/* -------------------------------------- */
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#logo_tranfero {
+    float: left;
+    width: 100px;
+    margin: 40px 0 0 30px;
+}
+h1 {
+    color: rgb(255, 255, 255);
+    font-size: 50px;
+    font-weight: bold;
+    font-family: sans-serif;
+    padding: 40px 0 0 150px;
+}
+h2 {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: sans-serif;
+    padding-left: 160px;
+}
+
+/* ------------------flag-------------- */
+
+ul{
+    margin-right: 50px;
+}
+li {    
+    color: var(--cor2);
+    font-weight: bold;
+    font-size: 20px;
+    display: inline;
+    transition: .2s;
+}
+li label {
+    padding: 10px;
+}
+li label:hover{
+    background-color: var(--cor6);
+    cursor: pointer;
+}
+.flag{
+    width: 30px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+/* ----------------------------- */
+
+#teste {
+    padding: 0;
+    font-size: 20px;
+    text-align: center;
+}
+
+/* --------------options--------------- */
+
+.selection {
+    display: flex;
+    justify-content: end;
+	max-width: 800px;
+    margin: 20px 0;
+}
+.selection label {
+    display: flex;
+    justify-content: center;
+	border: 1px solid var(--cor2);
+	width: 100px;
+	cursor: pointer;
+    transition: .2s;
+    text-align: center;
+    color: white;
+}
+
+input {
+    float: left;
+    visibility: hidden;
+}
+
+
+.selection label span {
+	line-height: 2em;
+    /* margin-left: -20px; */
+}
+
+#semana, #total{
+    border-radius: 5px 0px 0px 5px;
+    background-color: var(--cor2);
+}
+
+#semana span, #total span {
+    color: black;
+}
+
+#ano, #percentage{
+    border-radius: 0px 5px 5px 0px;
+}
+
+/* -----------------graph----------------- */
+
+#chartbox {
+    margin: 100px auto;
+    max-width: 800px;
+}
+
+#graph {
+    background-color: var(--cor6);
+    border: 1px solid rgb(255, 255, 255);
+}

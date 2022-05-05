@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="img_desafio02/favicon.ico" type="image/x-icon">
+    <title>Desafio Prime</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="node_modules/chart.js/dist/chart.js" defer></script>
+    <script src="index.js" defer></script>
+</head>
+<body>
+    <main>
+        <nav>
+            <div>
+                <img src="img_desafio02/transfero_logo.png" alt="logo transfero" id="logo_tranfero">
+                <h1>Transfero</h1>
+                <h2>Academy</h2>
+            </div>
+            <ul>
+                <li id="eng" onclick="language_change()">
+                    <label><img src="img_desafio02/eua.png" class="flag"><input type="radio" name="language" id="englishradio">En</label>
+                </li>
+                <li id="port" onclick="language_change()" >
+                    <label><img src="img_desafio02/brasil.png" class="flag"><input type="radio" name="language" id="portuguesradio" checked>Pt</label>
+                </li>
+            </ul>
+        </nav>
+        <h1 id="teste">Português mano...</h1>
+        <div id="chartbox">
+            <div class="selection">
+                <label id="semana" onclick="graph_change()">
+                    <input type="radio" name="tempo" id="semanaradio" checked>
+                    <span>Semana</span>
+                </label>
+                <label id="mes" onclick="graph_change()">
+                    <input type="radio" name="tempo" id="mesradio">
+                    <span>Mês</span>
+                </label>
+                <label id="ano" onclick="graph_change()">
+                    <input type="radio" name="tempo" id="anoradio">
+                    <span>Ano</span>
+                </label>
+            </div>
+            <canvas id="graph"></canvas>
+            <div class="selection">
+                <label id="total" onclick="total_viewer()">
+                    <input type="radio" name="total" id="totalradio" checked>
+                    <span>Total</span>
+                </label>
+                <label id="percentage" onclick="total_viewer()">
+                    <input type="radio" name="total" id="percentageradio">
+                    <span>%</span>
+                </label>
+            </div>
+        </div>
+
+        <div id="fodendo_teste">OPutro fodendo teste</div>
+    </main>
+</body>
+</html>
