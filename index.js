@@ -110,14 +110,14 @@ let dados_ano_ibov_percentage = []
 // label_mes = adicionar_a_lista(label_ano, label_mes, 20)
 
 
-function scroll_right() {
+function scroll_right(chart = myChart) {
     chart.options.scales.x.max += 6
     chart.options.scales.x.min += 6
 
     chart.update()
 }
 
-function scroll_left() {
+function scroll_left(chart = myChart) {
     chart.options.scales.x.max -= 6
     chart.options.scales.x.min -= 6
 
