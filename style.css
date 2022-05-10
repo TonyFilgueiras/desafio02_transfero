@@ -14,8 +14,9 @@ body {
 }
 
 main {
+    overflow: auto;
     margin: 10px auto;
-    height: 97ch;
+    height: 97vh;
     width: 98vw;    
     background-image: linear-gradient(var(--cor5), var(--cor6) 90%);
     border-radius: 5px;
@@ -24,22 +25,22 @@ main {
 /* Mudando a desgraça do scrollbar */
 
 ::-webkit-scrollbar {
-width: 18px;
+    width: 10px;
 }
 /* Track */
 ::-webkit-scrollbar-track {
-background: var(--cor6); 
+    background: var(--cor6); 
 }
 
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-background: var(--cor5); 
+    background: var(--cor5); 
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-background:white; 
+    background:white; 
 }
 /* -------------------------------------- */
 
@@ -96,19 +97,25 @@ nav li label:hover{
 
 /* ----------------------------- */
 
-#monkey:hover{
-    cursor: pointer;
+#fdc {
+    margin-top: 140px;
 }
 
 #total_carteira {
     margin: 40px 0 10px 0px;
     width: 34%;
+    text-align: end;
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+#monkey:hover{
+    cursor: pointer;
 }
 
 #total_carteira_h1, #total_carteira_valor {
-    font-size: 20px;
     padding: 0;
-    text-align: end;
 }
 /* --------------options--------------- */
 
@@ -261,3 +268,34 @@ input {
     margin-right: 20px;
 }
 
+
+
+/* ----------Adapting to cell phone------ */
+
+@media screen and (max-width: 480px) {
+    nav{
+        flex-wrap: wrap;
+        display: flex;
+        justify-content: end;
+        background-color: var(--cor6);
+    }
+
+    nav div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    #logo_tranfero {
+        margin: 20px 0 0 0;
+        align-self: center;
+    }
+    nav h1, nav h2 {
+        padding: 0;
+        text-align: center;
+    }
+    nav ul {
+        margin: 20px 0;
+    }
+
+}

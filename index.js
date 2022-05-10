@@ -82,7 +82,7 @@ const bolsa_selic_total = document.querySelector("#selic .valor_total")
 
 function language_change() {
     if (englishradio.checked == true) {
-        total_carteira.innerHTML="Total Value:"    
+        total_carteira.innerText="Total Value:"    
         semana.innerText = "Week"
         mes.innerText = "Month"
         ano.innerText = "Year"
@@ -95,7 +95,7 @@ function language_change() {
         graph_change()
     }
     else  {
-        total_carteira.innerHTML="Total na Carteira:"
+        total_carteira.innerText="Total na Carteira:"
         semana.innerText = "Semana"
         mes.innerText = "Mês"
         ano.innerText = "Ano"
