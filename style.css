@@ -21,6 +21,26 @@ main {
     border-radius: 5px;
 }
 
+/* Mudando a desgraça do scrollbar */
+
+::-webkit-scrollbar {
+width: 18px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+background: var(--cor6); 
+}
+
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: var(--cor5); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background:white; 
+}
 /* -------------------------------------- */
 
 nav {
@@ -61,10 +81,10 @@ li {
     display: inline;
     transition: .2s;
 }
-li label {
+nav li label {
     padding: 10px;
 }
-li label:hover{
+nav li label:hover{
     background-color: var(--cor6);
     cursor: pointer;
 }
@@ -76,12 +96,20 @@ li label:hover{
 
 /* ----------------------------- */
 
-#teste {
-    padding: 0;
-    font-size: 20px;
-    text-align: center;
+#monkey:hover{
+    cursor: pointer;
 }
 
+#total_carteira {
+    margin: 40px 0 10px 0px;
+    width: 34%;
+}
+
+#total_carteira_h1, #total_carteira_valor {
+    font-size: 20px;
+    padding: 0;
+    text-align: end;
+}
 /* --------------options--------------- */
 
 .selection {
@@ -116,6 +144,10 @@ input {
     border-radius: 5px 0px 0px 5px;
     background-color: var(--cor2);
 }
+#semana {
+    border-radius: 5px 0px 0px 5px;
+
+}
 
 #ano span, #total span {
     color: black;
@@ -128,7 +160,7 @@ input {
 /* -----------------graph----------------- */
 
 #chartbox {
-    margin: 100px auto;
+    margin: 10px auto;
     max-width: 800px;
 }
 
@@ -164,3 +196,68 @@ input {
     color: black;
     cursor: pointer;
 }
+
+/* --------------------bolsas-------------- */
+#bolsas ul{
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+
+#bolsas ul li {
+    background-color: var(--cor6);
+    border: 1px solid white ;
+    width: 20%;
+    color: white;
+}
+
+
+#bolsas ul li h1 {
+    font-size: large;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid white;
+}
+
+#ibovespa h1 {
+    text-decoration: underline;
+    text-underline-offset: 12px;
+    text-decoration-color: blue;
+}
+
+#poupanca h1 {
+    text-decoration: underline;
+    text-underline-offset: 12px;
+    text-decoration-color: white;
+}
+#btc h1 {
+    text-decoration: underline;
+    text-underline-offset: 12px;
+    text-decoration-color: orange;
+}
+#dollar h1 {
+    text-decoration: underline;
+    text-underline-offset: 12px;
+    text-decoration-color: red;
+}
+#cdi h1 {
+    text-decoration: underline;
+    text-underline-offset: 12px;
+    text-decoration-color: yellow;
+}
+#selic h1 {
+    text-decoration: underline;
+    text-underline-offset: 12px;
+    text-decoration-color: green;
+}
+
+#bolsas ul li p {
+    padding: 20px 0 0 20px;
+}
+
+#bolsas label {
+    display: flex;
+    justify-content: end;
+    margin-right: 20px;
+}
+
