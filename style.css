@@ -2,7 +2,7 @@
     --cor1 : #E8E1EF;
     --cor2 : #56EEF4;
     --cor3 : #38A3A5;
-    --cor4 : #357DED;
+    --cor4 : #357ced;
     --cor5 : #5438DC;
     --cor6 : #22175C;
 }
@@ -178,7 +178,7 @@ input {
 
 /* -----------------arrows---------------- */
 
-#grafico {
+div#grafico {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -272,11 +272,15 @@ input {
 
 /* ----------Adapting to cell phone------ */
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 660px) {
+    ::-webkit-scrollbar {
+        width: 0px;
+    }
+
+/* ------------------------------------- */
+
     nav{
-        flex-wrap: wrap;
-        display: flex;
-        justify-content: end;
+        display: block;
         background-color: var(--cor6);
     }
 
@@ -295,7 +299,30 @@ input {
         text-align: center;
     }
     nav ul {
-        margin: 20px 0;
+        padding: 20px 20px;
+        margin: 0;
+        text-align: end;
     }
 
+/* -------------------------------------- */
+    
+    #bolsas ul{
+        flex-direction: column;
+    }
+
+    #bolsas ul li {
+        height: auto;
+        width: auto;
+    }
+
+    #bolsas ul li h1 {
+        border-bottom: none;
+        float: left;
+    }
+
+    #bolsas ul li p{
+        display: flex;
+        justify-content: end;
+        padding: 0 50px 0 0;
+    }        
 }

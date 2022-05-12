@@ -13,14 +13,3 @@
 // console.log(`ta aqui ó ................ ${poupanca_value}`)
 
 
-var valor = 200
-
-lista = [0.02,0.04,0.05,0.02,0.06,0.01]
-
-for (var i = 0; i < lista.length; i++){
-    valor = valor + ((valor * (lista[i] * 100)) / 100)
-    console.log(valor)
-}
-
-
-console.log(valor)

@@ -298,17 +298,19 @@ var ibovespa_value = []
 var ibovespa_value_percentage = []
 var selic_value = []
 
-// async function read_json (file_name, list){
+// function read_json (file_name, list){
 //     fetch(file_name)
 //     .then(function(resp){
 //         return resp.json();
 //     })
 //     .then(function(data){
 //         list = data.map(x => x.valor)
-//     }); return list
+//     }); console.log(poupanca_value)
+//     return list
 // }
 
 // poupanca_value = read_json('./json_files/poupanca.json', poupanca_value)
+// console.log(poupanca_value)
 
 await fetch('./json_files/poupanca.json')
     .then(function(resp){
@@ -324,12 +326,6 @@ await fetch('./json_files/btc.json')
     })
     .then(function(data){
         btc_value = data.map(x => x.valor)
-    })
-await fetch('./json_files/btc.json')
-    .then(function(resp){
-        return resp.json();
-    })
-    .then(function(data){
         btc_value_percentage = data.map(x => x.variacao)
     })
 await fetch('./json_files/dollar.json')
@@ -338,12 +334,6 @@ await fetch('./json_files/dollar.json')
     })
     .then(function(data){
         dollar_value = data.map(x => x.valor)
-    })
-await fetch('./json_files/dollar.json')
-    .then(function(resp){
-        return resp.json();
-    })
-    .then(function(data){
         dollar_value_percentage = data.map(x => x.variacao)
     })
 await fetch('./json_files/cdi.json')
@@ -359,20 +349,25 @@ await fetch('./json_files/ibovespa.json')
     })
     .then(function(data){
         ibovespa_value = data.map(x => x.valor)
-    })
-await fetch('./json_files/ibovespa.json')
-    .then(function(resp){
-        return resp.json();
-    })
-    .then(function(data){
         ibovespa_value_percentage = data.map(x => x.variacao)
     })
+
 await fetch('./json_files/selic.json')
     .then(function(resp){
         return resp.json();
     })
     .then(function(data){
         selic_value = data.map(x => x.valor)
+    })
+
+let cufdc = []
+
+await fetch('https://prime-portfolio-api.herokuapp.com/bitcoin?value=100&start_date=01-01-2022')
+    .then(function(resp){
+        return resp.json();
+    })
+    .then(function(data){
+        cufdc = data.map(x => x.data)
     })
 
 var ibovespa_simulation = []
@@ -393,76 +388,52 @@ dollar_simulation, invested_value_dollar= investment_simulation(dollar_simulatio
 // ------------------------------------------Plotting graph-------------------------------------------------------//
 
 const data = {
-    labels: label_ano,
+    labels: cufdc,
     datasets: [{
         label: "IBOV",
         data: ibovespa_simulation,
-        backgroundColor: [
-            '#357DED',   
-        ],
-        borderColor: [
-            '#357DED',            
-        ],
+        backgroundColor: '#357DED99',   
+        borderColor: '#357DED',            
         tension: 0.4,
         borderWidth: 1
     },
     {
         label: 'Poupança',
         data: poupanca_value,
-        backgroundColor: [
-            'white',
-        ],
-        borderColor: [
-            'white',
-                    ],
+        backgroundColor: '#FFFFFF99',
+        borderColor: 'white',
         tension: 0.4,
         borderWidth: 0.8,
     },
     {
         label: 'BTC',
         data: btc_simulation,
-        backgroundColor: [
-                    'orange'
-                ],
-        borderColor: [
-                    'orange'
-                ],
+        backgroundColor: 'orange',
+        borderColor: 'orange',
         tension: 0.4,
         borderWidth: 0.8,
     },
     {
         label: 'Dollar',
         data: dollar_simulation,
-        backgroundColor: [
-            'red',
-        ],
-        borderColor: [
-            'red',
-                    ],
+        backgroundColor: 'red',
+        borderColor: 'red',
         tension: 0.4,
         borderWidth: 0.8,
     },
     {
         label: 'CDI',
         data: cdi_value,
-        backgroundColor: [
-            'yellow',
-        ],
-        borderColor: [
-            'yellow',
-                    ],
+        backgroundColor: 'yellow',
+        borderColor: 'yellow',
         tension: 0.4,
         borderWidth: 0.8,
     },
     {
         label: 'Selic',
         data: selic_value,
-        backgroundColor: [
-            'green',
-        ],
-        borderColor: [
-            'green',
-                    ],
+        backgroundColor: 'green',
+        borderColor: 'green',
         tension: 0.4,
         borderWidth: 0.8,
     },]
@@ -473,6 +444,7 @@ const config = {
     type: 'line',
     data: data,
     options: {
+        fill: false,
         scales: {
             y: {
                 grid: {
@@ -484,7 +456,6 @@ const config = {
             },
             x: {
                 min: 0,
-                max: label_ano.length -1, 
                 grid: {
                     color: "#56EEF4"
                 },
@@ -517,8 +488,7 @@ const myChart = new Chart(
     config
     );
     
-            
-
+        
 
 // // function add_value_to_list(json, list){
 // //     list.push(json.map((data) => data.valor))
@@ -529,3 +499,8 @@ const myChart = new Chart(
 // // poupanca_value = add_value_to_list(poupanca, poupanca_value)
 
 // // poupanca_value.push(poupanca.map((data) => data.valor))
+
+
+if (window.screen.width <= 650) {
+    window.alert("Baixe o app!!! :)")
+}
