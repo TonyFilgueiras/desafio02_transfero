@@ -40,7 +40,6 @@ const percentagebox = document.querySelector("#percentage")
 const percentage = document.querySelector("#percentage>span")
 const percentageradio = document.getElementById("percentageradio")
 
-
 const arrow_left = document.querySelector("#setaesquerda")
 const arrow_right = document.querySelector("#setadireita")
 
@@ -79,45 +78,32 @@ async function calculation(){
         selic_value = data[`valor_selic_${currency}`].map(x => x.valor)
         tccfusd_value = data[`valor_tccfusd_${currency}`].map(x => x.valor)
         dollar_value = data[`valor_usd_brl`].map(x => x.valor)
-        advanced_value_percentage = data[`valor_advf_${currency}`].map(x => x.variacao * 100) 
-        conservative_value_percentage = data[`valor_arbf_${currency}`].map(x => x.variacao * 100)
-        btc_value_percentage = data[`valor_bitcoin_${currency}`].map(x => x.variacao * 100)
-        ibov_value_percentage = data[`valor_bovespa_${currency}`].map(x => x.variacao * 100)
-        cdi_value_percentage = data[`valor_cdi_${currency}`].map(x => x.variacao * 100)
-        gsaf_value_percentage = data[`valor_gsaf_${currency}`].map(x => x.variacao * 100)
-        libra_value_percentage = data[`valor_libf_${currency}`].map(x => x.variacao * 100)
-        poupanca_value_percentage = data[`valor_poupanca_${currency}`].map(x => x.variacao * 100)
-        selic_value_percentage = data[`valor_selic_${currency}`].map(x => x.variacao * 100)
-        tccfusd_value_percentage = data[`valor_tccfusd_${currency}`].map(x => x.variacao * 100)
-        dollar_value_percentage = data[`valor_usd_brl`].map(x => x.variacao * 100)
+        advanced_value_percentage = data[`valor_advf_${currency}`].map(x => x.variacao_diaria * 100) 
+        conservative_value_percentage = data[`valor_arbf_${currency}`].map(x => x.variacao_diaria * 100)
+        btc_value_percentage = data[`valor_bitcoin_${currency}`].map(x => x.variacao_diaria * 100)
+        ibov_value_percentage = data[`valor_bovespa_${currency}`].map(x => x.variacao_diaria * 100)
+        cdi_value_percentage = data[`valor_cdi_${currency}`].map(x => x.variacao_diaria * 100)
+        gsaf_value_percentage = data[`valor_gsaf_${currency}`].map(x => x.variacao_diaria * 100)
+        libra_value_percentage = data[`valor_libf_${currency}`].map(x => x.variacao_diaria * 100)
+        poupanca_value_percentage = data[`valor_poupanca_${currency}`].map(x => x.variacao_diaria * 100)
+        selic_value_percentage = data[`valor_selic_${currency}`].map(x => x.variacao_diaria * 100)
+        tccfusd_value_percentage = data[`valor_tccfusd_${currency}`].map(x => x.variacao_diaria * 100)
+        dollar_value_percentage = data[`valor_usd_brl`].map(x => x.variacao_diaria * 100)
         if (currency == 'usd'){
             dollar_value = []
         }
-        graph_change()               
         date = data[`valor_advf_${currency}`].map(x => x.data)
+        graph_change()               
     })
     myChart.data.labels = date
     myChart.update()
 }
 
-const bolsa_ibov = document.querySelector("#ibovespa label")
-const bolsa_ibov_total = document.querySelector("#ibovespa .valor_total")
-const bolsa_poupanca = document.querySelector("#poupanca label")
-const bolsa_poupanca_total = document.querySelector("#poupanca .valor_total")
-const bolsa_btc = document.querySelector("#btc label")
-const bolsa_btc_total = document.querySelector("#btc .valor_total")
-const bolsa_dollar = document.querySelector("#dollar label")
-const bolsa_dollar_total = document.querySelector("#dollar .valor_total")
-const bolsa_cdi = document.querySelector("#cdi label")
-const bolsa_cdi_total = document.querySelector("#cdi .valor_total")
-const bolsa_selic = document.querySelector("#selic label")
-const bolsa_selic_total = document.querySelector("#selic .valor_total")
-
 // ----------------------------------Changing Language-----------------------------------------------//
 
 function language_change() {
     if (englishradio.checked == true) {
-        valor_label.innerText="Value:" 
+        valor_label.innerText="Value in BRL:" 
         data_label.innerText="Start date:" 
         semana.innerText = "Week"
         mes.innerText = "Month"
@@ -125,18 +111,11 @@ function language_change() {
         graph_change()
     }
     else  {
-        valor_label.innerText="Valor:"
+        valor_label.innerText="Valor em BRL:"
         data_label.innerText="Data de ínicio:" 
         semana.innerText = "Semana"
         mes.innerText = "Mês"
         ano.innerText = "Ano"
-        valor_investido.innerText = "Valor Investido"
-        for (let i = 0; i < valor_investido.length; i++) {
-            valor_investido[i].innerText = "Valor Investido:";
-        }
-        for (let i = 0; i < valor_investido.length; i++) {
-            totalzao[i].innerText = "Valor Total:";
-        }
         graph_change()
     }
 }
@@ -349,17 +328,17 @@ await fetch(`https://prime-portfolio-api.herokuapp.com/simulation?value=${invest
         selic_value = data['valor_selic_brl'].map(x => x.valor)
         tccfusd_value = data['valor_tccfusd_brl'].map(x => x.valor)
         dollar_value = data['valor_usd_brl'].map(x => x.valor)
-        advanced_value_percentage = data['valor_advf_brl'].map(x => x.variacao * 100) 
-        conservative_value_percentage = data['valor_arbf_brl'].map(x => x.variacao * 100)
-        btc_value_percentage = data['valor_bitcoin_brl'].map(x => x.variacao * 100)
-        ibov_value_percentage = data['valor_bovespa_brl'].map(x => x.variacao * 100)
-        cdi_value_percentage = data['valor_cdi_brl'].map(x => x.variacao * 100)
-        gsaf_value_percentage = data['valor_gsaf_brl'].map(x => x.variacao * 100)
-        libra_value_percentage = data['valor_libf_brl'].map(x => x.variacao * 100)
-        poupanca_value_percentage = data['valor_poupanca_brl'].map(x => x.variacao * 100)
-        selic_value_percentage = data['valor_selic_brl'].map(x => x.variacao * 100)
-        tccfusd_value_percentage = data['valor_tccfusd_brl'].map(x => x.variacao * 100)
-        dollar_value_percentage = data['valor_usd_brl'].map(x => x.variacao * 100)              
+        advanced_value_percentage = data['valor_advf_brl'].map(x => x.variacao_diaria * 100) 
+        conservative_value_percentage = data['valor_arbf_brl'].map(x => x.variacao_diaria * 100)
+        btc_value_percentage = data['valor_bitcoin_brl'].map(x => x.variacao_diaria * 100)
+        ibov_value_percentage = data['valor_bovespa_brl'].map(x => x.variacao_diaria * 100)
+        cdi_value_percentage = data['valor_cdi_brl'].map(x => x.variacao_diaria * 100)
+        gsaf_value_percentage = data['valor_gsaf_brl'].map(x => x.variacao_diaria * 100)
+        libra_value_percentage = data['valor_libf_brl'].map(x => x.variacao_diaria * 100)
+        poupanca_value_percentage = data['valor_poupanca_brl'].map(x => x.variacao_diaria * 100)
+        selic_value_percentage = data['valor_selic_brl'].map(x => x.variacao_diaria * 100)
+        tccfusd_value_percentage = data['valor_tccfusd_brl'].map(x => x.variacao_diaria * 100)
+        dollar_value_percentage = data['valor_usd_brl'].map(x => x.variacao_diaria * 100)              
         date = data['valor_advf_brl'].map(x => x.data)
     })
 
