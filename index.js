@@ -4,10 +4,9 @@ window.graph_change = graph_change;
 window.language_change = language_change;
 window.scroll_left = scroll_left;
 window.scroll_right = scroll_right;
-window.percentage_calculator = percentage_calculator
 window.checking_for_percentage = checking_for_percentage
-window.visible_value = visible_value
-
+window.calculation = calculation
+window.currency_change = currency_change
 
 
 function graph(data, coin,time, chart = myChart) {
@@ -16,8 +15,8 @@ function graph(data, coin,time, chart = myChart) {
             dataset.data = data;
         }
     });
-    chart.options.scales.x.min = label_ano.length - time
-    chart.options.scales.x.max = label_ano.length - 1
+    chart.options.scales.x.min = date.length - time
+    chart.options.scales.x.max = date.length - 1
     chart.update();
 }
 
@@ -46,25 +45,59 @@ const arrow_left = document.querySelector("#setaesquerda")
 const arrow_right = document.querySelector("#setadireita")
 
 
-const total_carteira = document.getElementById("total_carteira_h1")
-const total_carteira_valor = document.getElementById("total_carteira_valor")
+const valor_label = document.querySelector("#total_carteira label")
+const data_label = document.querySelector("#total_carteira label[for='data_simulação']")
 
+const realradio = document.getElementById("realradio")
+const dolarradio = document.getElementById("dolarradio")
+var currency = 'brl'
 
 const englishradio = document.getElementById("englishradio")
 const portuguesradio = document.getElementById("portuguesradio")
 
-const valor_investido = document.getElementsByClassName("valor_investido")
-const totalzao = document.getElementsByClassName("totalzao")
+var invested_value = Number(document.getElementById("valor_simulação").value)
+var date_input = (document.getElementById("data_simulação").value)
 
-const monkey = document.getElementById("monkey")
+async function calculation(){
+    date_input = (document.getElementById("data_simulação").value).split(/\s*-\s*/)
+    invested_value = Number(document.getElementById("valor_simulação").value)
+    await fetch(`https://prime-portfolio-api.herokuapp.com/simulation?value=${invested_value}&start_date=${date_input[2]}-${date_input[1]}-${date_input[0]}`)
+    .then(function(resp){
+        return resp.json();
+    })
+    .then(function(data){
+        advanced_value = data[`valor_advf_${currency}`].map(x => x.valor)
+        conservative_value = data[`valor_arbf_${currency}`].map(x => x.valor)
+        btc_value = data[`valor_bitcoin_${currency}`].map(x => x.valor)
+        ibov_value = data[`valor_bovespa_${currency}`].map(x => x.valor)
+        cdi_value = data[`valor_cdi_${currency}`].map(x => x.valor)
+        gsaf_value = data[`valor_gsaf_${currency}`].map(x => x.valor)
+        libra_value = data[`valor_libf_${currency}`].map(x => x.valor)
+        poupanca_value = data[`valor_poupanca_${currency}`].map(x => x.valor)
+        selic_value = data[`valor_selic_${currency}`].map(x => x.valor)
+        tccfusd_value = data[`valor_tccfusd_${currency}`].map(x => x.valor)
+        dollar_value = data[`valor_usd_brl`].map(x => x.valor)
+        advanced_value_percentage = data[`valor_advf_${currency}`].map(x => x.variacao * 100) 
+        conservative_value_percentage = data[`valor_arbf_${currency}`].map(x => x.variacao * 100)
+        btc_value_percentage = data[`valor_bitcoin_${currency}`].map(x => x.variacao * 100)
+        ibov_value_percentage = data[`valor_bovespa_${currency}`].map(x => x.variacao * 100)
+        cdi_value_percentage = data[`valor_cdi_${currency}`].map(x => x.variacao * 100)
+        gsaf_value_percentage = data[`valor_gsaf_${currency}`].map(x => x.variacao * 100)
+        libra_value_percentage = data[`valor_libf_${currency}`].map(x => x.variacao * 100)
+        poupanca_value_percentage = data[`valor_poupanca_${currency}`].map(x => x.variacao * 100)
+        selic_value_percentage = data[`valor_selic_${currency}`].map(x => x.variacao * 100)
+        tccfusd_value_percentage = data[`valor_tccfusd_${currency}`].map(x => x.variacao * 100)
+        dollar_value_percentage = data[`valor_usd_brl`].map(x => x.variacao * 100)
+        if (currency == 'usd'){
+            dollar_value = []
+        }
+        graph_change()               
+        date = data[`valor_advf_${currency}`].map(x => x.data)
+    })
+    myChart.data.labels = date
+    myChart.update()
+}
 
-
-let invested_value_ibov = 1000
-let invested_value_poupanca = 1000
-let invested_value_btc = 1000
-let invested_value_dollar = 1000
-let invested_value_cdi = 1000
-let invested_value_selic = 1000
 const bolsa_ibov = document.querySelector("#ibovespa label")
 const bolsa_ibov_total = document.querySelector("#ibovespa .valor_total")
 const bolsa_poupanca = document.querySelector("#poupanca label")
@@ -82,20 +115,16 @@ const bolsa_selic_total = document.querySelector("#selic .valor_total")
 
 function language_change() {
     if (englishradio.checked == true) {
-        total_carteira.innerText="Total Value:"    
+        valor_label.innerText="Value:" 
+        data_label.innerText="Start date:" 
         semana.innerText = "Week"
         mes.innerText = "Month"
         ano.innerText = "Year"
-        for (let i = 0; i < valor_investido.length; i++) {
-            valor_investido[i].innerText = "Invested Value:";
-        }
-        for (let i = 0; i < valor_investido.length; i++) {
-            totalzao[i].innerText = "Asset Value:";
-        }
         graph_change()
     }
     else  {
-        total_carteira.innerText="Total na Carteira:"
+        valor_label.innerText="Valor:"
+        data_label.innerText="Data de ínicio:" 
         semana.innerText = "Semana"
         mes.innerText = "Mês"
         ano.innerText = "Ano"
@@ -110,60 +139,28 @@ function language_change() {
     }
 }
 
+// --------------------------------------Changing currency----------------------------------------------------------//
 
-
-// ------------------------------------My testing data----------------------------------------------------------------//
-let label_ano = ['2022-01-03','2022-01-04','2022-01-05','2022-01-06','2022-01-07','2022-01-10','2022-01-11','2022-01-12','2022-01-13','2022-01-14','2022-01-17','2022-01-18','2022-01-19','2022-01-20','2022-01-21','2022-01-24','2022-01-25','2022-01-26','2022-01-27','2022-01-28','2022-01-31','2022-02-01','2022-02-02','2022-02-03','2022-02-04','2022-02-07','2022-02-08','2022-02-09','2022-02-10','2022-02-11','2022-02-14','2022-02-15','2022-02-16','2022-02-17','2022-02-18','2022-02-21','2022-02-22','2022-02-23','2022-02-24','2022-02-25','2022-03-02','2022-03-03','2022-03-04','2022-03-07','2022-03-08','2022-03-09','2022-03-10','2022-03-11','2022-03-14','2022-03-15','2022-03-16','2022-03-17','2022-03-18','2022-03-21','2022-03-22','2022-03-23','2022-03-24','2022-03-25','2022-03-28','2022-03-29','2022-03-30','2022-03-31','2022-04-01','2022-04-04','2022-04-05','2022-04-06','2022-04-07','2022-04-08','2022-04-11','2022-04-12','2022-04-13','2022-04-14','2022-04-18','2022-04-19','2022-04-20','2022-04-22','2022-04-25','2022-04-26','2022-04-27','2022-04-28','2022-04-29','2022-05-02',"2022-05-03", "2022-05-04", "2022-05-05"]
-
-// --------------------------------------Changing visualization----------------------------------------------------------//
-
-var alternate = 0
-function visible_value(){
-    if (alternate == 0) {
-        monkey.innerHTML = "&#128053"
-        bolsa_ibov.innerText = `R$ ${1000}`
-        bolsa_poupanca.innerText = `R$ ${1000}`
-        bolsa_btc.innerText = `R$ ${1000}`
-        bolsa_dollar.innerText = `R$ ${1000}`
-        bolsa_cdi.innerText = `R$ ${1000}`
-        bolsa_selic.innerText = `R$ ${1000}`
-        bolsa_ibov_total.innerText = `R$ ${Math.round(invested_value_ibov * 100) / 100}`
-        bolsa_btc_total.innerText = `R$ ${Math.round(invested_value_btc * 100) / 100}`
-        bolsa_dollar_total.innerText = `R$ ${Math.round(invested_value_dollar * 100) / 100}`
-        bolsa_poupanca_total.innerText = `R$ ${Math.round(invested_value_poupanca * 100) / 100}`
-        bolsa_cdi_total.innerText = `R$ ${Math.round(invested_value_cdi * 100) / 100}`
-        bolsa_selic_total.innerText = `R$ ${Math.round(invested_value_selic * 100) / 100}`
-        total_carteira_valor.innerText = `R$ ${Math.round((invested_value_ibov + invested_value_btc + invested_value_dollar + invested_value_poupanca + invested_value_cdi + invested_value_selic )* 100) / 100}`
-        alternate = 1
-    } else { 
-        monkey.innerHTML = "&#128584"
-        bolsa_ibov.innerText = "******"
-        bolsa_poupanca.innerText = "******"
-        bolsa_btc.innerText = "******"
-        bolsa_dollar.innerText = "******"
-        bolsa_cdi.innerText = "******"
-        bolsa_selic.innerText = "******"
-        bolsa_ibov_total.innerText = `******`
-        bolsa_btc_total.innerText = `******`
-        bolsa_dollar_total.innerText = `******`
-        bolsa_poupanca_total.innerText = `******`
-        bolsa_cdi_total.innerText = `******`
-        bolsa_selic_total.innerText = `******`
-        total_carteira_valor.innerText = `******`
-        alternate = 0 
+function currency_change(){
+    if (realradio.checked == true){
+        currency = 'brl'
+        calculation()
+    } else {
+        currency = 'usd'
+        calculation()
     }
 }
-
         
 // ----------------------------------------Scroll no grafico-----------------------------------------------------//
 
 function scroll_right(chart = myChart) {
-    chart.options.scales.x.max += 6
-    chart.options.scales.x.min += 6
-
     if (semanaradio.checked) {
-        var time = 6
+        chart.options.scales.x.max += 1
+        chart.options.scales.x.min += 1
+        var time = 7
     } else if (mesradio.checked) {
+        chart.options.scales.x.max += 6
+        chart.options.scales.x.min += 6
         var time = 22
     }
     
@@ -178,12 +175,13 @@ function scroll_right(chart = myChart) {
 }
 
 function scroll_left(chart = myChart) {
-    chart.options.scales.x.max -= 6
-    chart.options.scales.x.min -= 6
-    
     if (semanaradio.checked) {
-        var time = 6
+        chart.options.scales.x.max -= 1
+        chart.options.scales.x.min -= 1
+        var time = 7
     } else if (mesradio.checked) {
+        chart.options.scales.x.max -= 6
+        chart.options.scales.x.min -= 6    
         var time = 22
     }
     
@@ -199,20 +197,6 @@ function scroll_left(chart = myChart) {
 
 
 // ------------------------------------Calculating percentage-----------------------------------//  
-
-function percentage_calculator (data, data_percentage) {
-    var j = 0
-    for (var i in data) {
-        if (j > 0){
-            i = ((data[j] * 100) / data[0]) - 100
-        } else {
-            i = 0
-        }
-        j += 1
-        data_percentage.push(i)
-    }
-}
-
 function checking_for_percentage(dados1, dados2) {
     if (percentageradio.checked == true){
         var x = dados2
@@ -225,9 +209,17 @@ function checking_for_percentage(dados1, dados2) {
 // -----------------------------------Changing graph----------------------------------------------//
 
 function graph_change() {
-    var ibov = checking_for_percentage(ibovespa_simulation,ibovespa_value_percentage)
-    var btc = checking_for_percentage(btc_simulation,btc_value_percentage)
-    var dollar = checking_for_percentage(dollar_simulation,dollar_value_percentage)
+    var adv = checking_for_percentage(advanced_value,advanced_value_percentage)
+    var cons = checking_for_percentage(conservative_value,conservative_value_percentage)
+    var btc = checking_for_percentage(btc_value,btc_value_percentage)
+    var ibov = checking_for_percentage(ibov_value,ibov_value_percentage)
+    var cdi = checking_for_percentage(cdi_value,cdi_value_percentage)
+    var gsaf = checking_for_percentage(gsaf_value,gsaf_value_percentage)
+    var lib = checking_for_percentage(libra_value,libra_value_percentage)
+    var poupanca = checking_for_percentage(poupanca_value,poupanca_value_percentage)
+    var selic = checking_for_percentage(selic_value,selic_value_percentage)
+    var tccfusd = checking_for_percentage(tccfusd_value,tccfusd_value_percentage)
+    var dollar = checking_for_percentage(dollar_value,dollar_value_percentage)
     if (semanaradio.checked) {
         semanabox.style.background = "#56EEF4"
         mesbox.style.background = "none"
@@ -235,9 +227,17 @@ function graph_change() {
         document.querySelector("#semana>span").style.color = "black"
         mesbox.style.color = "white"
         ano.style.color = "white"
-        graph(ibov,"IBOV", 6)
-        graph(btc, "BTC",6)
-        graph(dollar, "Dollar",6)
+        graph(adv,"Advanced", 7)
+        graph(cons,"Conservative", 7)
+        graph(btc,"Bitcoin", 7)
+        graph(ibov,"Ibovespa", 7)
+        graph(cdi,"CDI", 7)
+        graph(gsaf,"GSAF", 7)
+        graph(lib,"Libra", 7)
+        graph(poupanca,"Poupança", 7)
+        graph(selic,"Selic", 7)
+        graph(tccfusd,"TCCFUSD", 7)
+        graph(dollar,"Dollar", 7)
         arrow_left.style.visibility = "visible"
         arrow_right.style.visibility = "visible"
     }
@@ -248,9 +248,17 @@ function graph_change() {
         semana.style.color = "white"
         mesbox.style.color = "black"
         ano.style.color = "white"
-        graph(ibov,'IBOV', 22)
-        graph(btc, "BTC",22)
-        graph(dollar, "Dollar",22)
+        graph(adv,'Advanced', 22)
+        graph(cons,"Conservative", 22)
+        graph(btc,"Bitcoin", 22)
+        graph(ibov,"Ibovespa", 22)
+        graph(cdi,"CDI", 22)
+        graph(gsaf,"GSAF", 22)
+        graph(lib,"Libra", 22)
+        graph(poupanca,"Poupança", 22)
+        graph(selic,"Selic", 22)
+        graph(tccfusd,"TCCFUSD", 22)
+        graph(dollar,"Dollar", 22)
         arrow_left.style.visibility = "visible"
         arrow_right.style.visibility = "visible"
     }
@@ -261,9 +269,17 @@ function graph_change() {
         document.querySelector("#semana>span").style.color = "white"
         mesbox.style.color = "white"
         ano.style.color = "black"
-        graph(ibov, "IBOV", ibovespa_simulation.length)
-        graph(btc, "BTC", btc_simulation.length)
-        graph(dollar, "Dollar",dollar_simulation.length)
+        graph(adv, "Advanced", advanced_value.length)
+        graph(cons,"Conservative", advanced_value.length)
+        graph(btc,"Bitcoin", advanced_value.length)
+        graph(ibov,"Ibovespa", advanced_value.length)
+        graph(cdi,"CDI", advanced_value.length)
+        graph(gsaf,"GSAF", advanced_value.length)
+        graph(lib,"Libra", advanced_value.length)
+        graph(poupanca,"Poupança", advanced_value.length)
+        graph(selic,"Selic", advanced_value.length)
+        graph(tccfusd,"TCCFUSD", advanced_value.length)
+        graph(dollar,"Dollar", advanced_value.length)
         arrow_left.style.visibility = "hidden"
         arrow_right.style.visibility = "hidden"
     }    
@@ -286,157 +302,154 @@ function total_viewer() {
         graph_change()
     }
 }
-// -----------------------------------------------Reading JSON------------------------------------------------------------//
+// -----------------------------------------------Reading API------------------------------------------------------------//
+let advanced_value = []
+let advanced_value_percentage = []
+let conservative_value = []
+let conservative_value_percentage = []
+let btc_value = []
+let btc_value_percentage = []
+let ibov_value = []
+let ibov_value_percentage = []
+let cdi_value = []
+let cdi_value_percentage = []
+let gsaf_value = []
+let gsaf_value_percentage = []
+let libra_value = []
+let libra_value_percentage = []
+let poupanca_value = []
+let poupanca_value_percentage = []
+let selic_value = []
+let selic_value_percentage = []
+let tccfusd_value = []
+let tccfusd_value_percentage = []
+let dollar_value = []
+let dollar_value_percentage = []
+var date = []
 
-var poupanca_value = []
-var btc_value = []
-var btc_value_percentage = []
-var dollar_value = []
-var dollar_value_percentage = []
-var cdi_value = []
-var ibovespa_value = []
-var ibovespa_value_percentage = []
-var selic_value = []
-
-// function read_json (file_name, list){
-//     fetch(file_name)
-//     .then(function(resp){
-//         return resp.json();
-//     })
-//     .then(function(data){
-//         list = data.map(x => x.valor)
-//     }); console.log(poupanca_value)
-//     return list
-// }
-
-// poupanca_value = read_json('./json_files/poupanca.json', poupanca_value)
-// console.log(poupanca_value)
-
-await fetch('./json_files/poupanca.json')
+await fetch(`https://prime-portfolio-api.herokuapp.com/simulation?value=${invested_value}&start_date=01-01-2021`)
     .then(function(resp){
         return resp.json();
     })
     .then(function(data){
-        poupanca_value = data.map(x => x.valor)
+        advanced_value = data['valor_advf_brl'].map(x => x.valor)
+        conservative_value = data['valor_arbf_brl'].map(x => x.valor)
+        btc_value = data['valor_bitcoin_brl'].map(x => x.valor)
+        ibov_value = data['valor_bovespa_brl'].map(x => x.valor)
+        cdi_value = data['valor_cdi_brl'].map(x => x.valor)
+        gsaf_value = data['valor_gsaf_brl'].map(x => x.valor)
+        libra_value = data['valor_libf_brl'].map(x => x.valor)
+        poupanca_value = data['valor_poupanca_brl'].map(x => x.valor)
+        selic_value = data['valor_selic_brl'].map(x => x.valor)
+        tccfusd_value = data['valor_tccfusd_brl'].map(x => x.valor)
+        dollar_value = data['valor_usd_brl'].map(x => x.valor)
+        advanced_value_percentage = data['valor_advf_brl'].map(x => x.variacao * 100) 
+        conservative_value_percentage = data['valor_arbf_brl'].map(x => x.variacao * 100)
+        btc_value_percentage = data['valor_bitcoin_brl'].map(x => x.variacao * 100)
+        ibov_value_percentage = data['valor_bovespa_brl'].map(x => x.variacao * 100)
+        cdi_value_percentage = data['valor_cdi_brl'].map(x => x.variacao * 100)
+        gsaf_value_percentage = data['valor_gsaf_brl'].map(x => x.variacao * 100)
+        libra_value_percentage = data['valor_libf_brl'].map(x => x.variacao * 100)
+        poupanca_value_percentage = data['valor_poupanca_brl'].map(x => x.variacao * 100)
+        selic_value_percentage = data['valor_selic_brl'].map(x => x.variacao * 100)
+        tccfusd_value_percentage = data['valor_tccfusd_brl'].map(x => x.variacao * 100)
+        dollar_value_percentage = data['valor_usd_brl'].map(x => x.variacao * 100)              
+        date = data['valor_advf_brl'].map(x => x.data)
     })
-
-await fetch('./json_files/btc.json')
-    .then(function(resp){
-        return resp.json();
-    })
-    .then(function(data){
-        btc_value = data.map(x => x.valor)
-        btc_value_percentage = data.map(x => x.variacao)
-    })
-await fetch('./json_files/dollar.json')
-    .then(function(resp){
-        return resp.json();
-    })
-    .then(function(data){
-        dollar_value = data.map(x => x.valor)
-        dollar_value_percentage = data.map(x => x.variacao)
-    })
-await fetch('./json_files/cdi.json')
-    .then(function(resp){
-        return resp.json();
-    })
-    .then(function(data){
-        cdi_value = data.map(x => x.valor)
-    })
-await fetch('./json_files/ibovespa.json')
-    .then(function(resp){
-        return resp.json();
-    })
-    .then(function(data){
-        ibovespa_value = data.map(x => x.valor)
-        ibovespa_value_percentage = data.map(x => x.variacao)
-    })
-
-await fetch('./json_files/selic.json')
-    .then(function(resp){
-        return resp.json();
-    })
-    .then(function(data){
-        selic_value = data.map(x => x.valor)
-    })
-
-let cufdc = []
-
-await fetch('https://prime-portfolio-api.herokuapp.com/bitcoin?value=100&start_date=01-01-2022')
-    .then(function(resp){
-        return resp.json();
-    })
-    .then(function(data){
-        cufdc = data.map(x => x.data)
-    })
-
-var ibovespa_simulation = []
-var btc_simulation = []
-var dollar_simulation = []
-
-function investment_simulation(final_list, invested,base_graph){
-    for (var i = 0; i < base_graph.length; i++){
-        invested = invested + ((invested * (base_graph[i] * 100)) / 100)
-        final_list.push(invested)
-    } return final_list, invested
-}
-
-ibovespa_simulation, invested_value_ibov= investment_simulation(ibovespa_simulation, invested_value_ibov, ibovespa_value_percentage)
-btc_simulation, invested_value_btc= investment_simulation(btc_simulation, invested_value_btc, btc_value_percentage)
-dollar_simulation, invested_value_dollar= investment_simulation(dollar_simulation, invested_value_dollar, dollar_value_percentage)
 
 // ------------------------------------------Plotting graph-------------------------------------------------------//
 
 const data = {
-    labels: cufdc,
+    labels: date,
     datasets: [{
-        label: "IBOV",
-        data: ibovespa_simulation,
+        label: "Advanced",
+        data: advanced_value,
         backgroundColor: '#357DED99',   
         borderColor: '#357DED',            
         tension: 0.4,
         borderWidth: 1
     },
     {
-        label: 'Poupança',
-        data: poupanca_value,
-        backgroundColor: '#FFFFFF99',
-        borderColor: 'white',
+        label: "Conservative",
+        data: conservative_value,
+        backgroundColor: '#56EEF499',   
+        borderColor: '#56EEF4',            
         tension: 0.4,
-        borderWidth: 0.8,
+        borderWidth: 1
     },
     {
-        label: 'BTC',
-        data: btc_simulation,
-        backgroundColor: 'orange',
-        borderColor: 'orange',
+        label: "Bitcoin",
+        data: btc_value,
+        backgroundColor: 'orange',   
+        borderColor: 'orange',            
         tension: 0.4,
-        borderWidth: 0.8,
+        borderWidth: 1
     },
     {
-        label: 'Dollar',
-        data: dollar_simulation,
-        backgroundColor: 'red',
-        borderColor: 'red',
+        label: "Ibovespa",
+        data: ibov_value,
+        backgroundColor: 'red',   
+        borderColor: 'red',            
         tension: 0.4,
-        borderWidth: 0.8,
+        borderWidth: 1
     },
     {
-        label: 'CDI',
+        label: "CDI",
         data: cdi_value,
-        backgroundColor: 'yellow',
-        borderColor: 'yellow',
+        backgroundColor: 'white',   
+        borderColor: 'white',            
         tension: 0.4,
-        borderWidth: 0.8,
+        borderWidth: 1
     },
     {
-        label: 'Selic',
-        data: selic_value,
-        backgroundColor: 'green',
-        borderColor: 'green',
+        label: "GSAF",
+        data: gsaf_value,
+        backgroundColor: 'green',   
+        borderColor: 'green',            
         tension: 0.4,
-        borderWidth: 0.8,
-    },]
+        borderWidth: 1
+    },
+    {
+        label: "Libra",
+        data: libra_value,
+        backgroundColor: 'pink',   
+        borderColor: 'pink',            
+        tension: 0.4,
+        borderWidth: 1
+    },
+    {
+        label: "Poupança",
+        data: poupanca_value,
+        backgroundColor: 'gray',   
+        borderColor: 'gray',            
+        tension: 0.4,
+        borderWidth: 1
+    },
+    {
+        label: "Selic",
+        data: selic_value, 
+        backgroundColor: 'purple',   
+        borderColor: 'purple',            
+        tension: 0.4,
+        borderWidth: 1
+    },
+    {
+        label: "TCCFUSD",
+        data: tccfusd_value,
+        backgroundColor: 'lime',   
+        borderColor: 'lime',            
+        tension: 0.4,
+        borderWidth: 1
+    },
+    {
+        label: "Dollar",
+        data: dollar_value,
+        backgroundColor: 'violet',   
+        borderColor: 'violet',            
+        tension: 0.4,
+        borderWidth: 1
+    },
+]
 };
                                 
 // config 
@@ -444,7 +457,7 @@ const config = {
     type: 'line',
     data: data,
     options: {
-        fill: false,
+        // fill: false,
         scales: {
             y: {
                 grid: {
@@ -487,19 +500,6 @@ const myChart = new Chart(
     document.getElementById('graph'),
     config
     );
-    
-        
-
-// // function add_value_to_list(json, list){
-// //     list.push(json.map((data) => data.valor))
-
-// //     return list
-// // }
-
-// // poupanca_value = add_value_to_list(poupanca, poupanca_value)
-
-// // poupanca_value.push(poupanca.map((data) => data.valor))
-
 
 if (window.screen.width <= 650) {
     window.alert("Baixe o app!!! :)")

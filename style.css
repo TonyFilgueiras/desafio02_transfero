@@ -73,7 +73,11 @@ h2 {
 /* ------------------flag-------------- */
 
 ul{
+    display: inline;
     margin-right: 50px;
+    color: white;
+    font-size: larger;
+    font-weight: bold;
 }
 li {    
     color: var(--cor2);
@@ -95,27 +99,34 @@ nav li label:hover{
     margin-right: 10px;
 }
 
-/* ----------------------------- */
-
-#fdc {
-    margin-top: 140px;
-}
+/* ---------------monkey-------------- */
 
 #total_carteira {
-    margin: 40px 0 10px 0px;
-    width: 34%;
-    text-align: end;
+    margin: 40px auto 10px auto;
+    max-width: 800px;
     color: white;
     font-size: 25px;
     font-weight: bold;
 }
 
-#monkey:hover{
-    cursor: pointer;
+#total_carteira div{
+    display: flex;
+    justify-content: space-between;
+    max-width: 280px;
+
 }
 
-#total_carteira_h1, #total_carteira_valor {
-    padding: 0;
+#valor_simulação {
+    width: 110px;
+}
+
+.input_simulação {
+    visibility: visible;
+    background-color: var(--cor4);
+    color: white;
+    font-weight: bold;
+    padding: 2px 0;
+    float: none;
 }
 /* --------------options--------------- */
 
@@ -204,72 +215,6 @@ div#grafico {
     cursor: pointer;
 }
 
-/* --------------------bolsas-------------- */
-#bolsas ul{
-    display: flex;
-    justify-content: center;
-    margin: 0;
-}
-
-#bolsas ul li {
-    background-color: var(--cor6);
-    border: 1px solid white ;
-    width: 20%;
-    color: white;
-}
-
-
-#bolsas ul li h1 {
-    font-size: large;
-    padding: 20px;
-    text-align: center;
-    border-bottom: 1px solid white;
-}
-
-#ibovespa h1 {
-    text-decoration: underline;
-    text-underline-offset: 12px;
-    text-decoration-color: blue;
-}
-
-#poupanca h1 {
-    text-decoration: underline;
-    text-underline-offset: 12px;
-    text-decoration-color: white;
-}
-#btc h1 {
-    text-decoration: underline;
-    text-underline-offset: 12px;
-    text-decoration-color: orange;
-}
-#dollar h1 {
-    text-decoration: underline;
-    text-underline-offset: 12px;
-    text-decoration-color: red;
-}
-#cdi h1 {
-    text-decoration: underline;
-    text-underline-offset: 12px;
-    text-decoration-color: yellow;
-}
-#selic h1 {
-    text-decoration: underline;
-    text-underline-offset: 12px;
-    text-decoration-color: green;
-}
-
-#bolsas ul li p {
-    padding: 20px 0 0 20px;
-}
-
-#bolsas label {
-    display: flex;
-    justify-content: end;
-    margin-right: 20px;
-}
-
-
-
 /* ----------Adapting to cell phone------ */
 
 @media screen and (max-width: 660px) {
@@ -304,25 +249,5 @@ div#grafico {
         text-align: end;
     }
 
-/* -------------------------------------- */
-    
-    #bolsas ul{
-        flex-direction: column;
-    }
-
-    #bolsas ul li {
-        height: auto;
-        width: auto;
-    }
-
-    #bolsas ul li h1 {
-        border-bottom: none;
-        float: left;
-    }
-
-    #bolsas ul li p{
-        display: flex;
-        justify-content: end;
-        padding: 0 50px 0 0;
-    }        
+/* -------------------------------------- */      
 }
