@@ -49,7 +49,9 @@ const valor_label = document.querySelector("#total_carteira label")
 const data_label = document.querySelector("#total_carteira label[for='data_simulação']")
 
 const realradio = document.getElementById("realradio")
+const real = document.querySelector("#real label")
 const dolarradio = document.getElementById("dolarradio")
+const dolar = document.querySelector("#dollar label")
 var currency = 'brl'
 
 const englishradio = document.getElementById("englishradio")
@@ -144,9 +146,13 @@ function language_change() {
 function currency_change(){
     if (realradio.checked == true){
         currency = 'brl'
+        real.style.background = "#22175C"
+        dolar.style.background = 'transparent'
         calculation()
     } else {
         currency = 'usd'
+        real.style.background = "transparent"
+        dolar.style.background = '#22175C'
         calculation()
     }
 }

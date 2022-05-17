@@ -84,8 +84,12 @@ li {
     font-weight: bold;
     font-size: 20px;
     display: inline;
+}
+
+label {
     transition: .2s;
 }
+
 nav li label {
     padding: 10px;
 }
@@ -99,7 +103,13 @@ nav li label:hover{
     margin-right: 10px;
 }
 
-/* ---------------monkey-------------- */
+/* -----------  currency--------------- */
+
+#real label{
+    background-color: var(--cor6);
+}
+
+/* -------------simulation input------- */
 
 #total_carteira {
     margin: 40px auto 10px auto;
