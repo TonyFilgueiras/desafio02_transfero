@@ -150,9 +150,9 @@ function scroll_right(chart = myChart) {
     }
     
     
-    if(chart.options.scales.x.max >= label_ano.length -1) {
-        chart.options.scales.x.max = label_ano.length -1
-        chart.options.scales.x.min = label_ano.length - time
+    if(chart.options.scales.x.max >= date.length -1) {
+        chart.options.scales.x.max = date.length -1
+        chart.options.scales.x.min = date.length - time
         
     };
     
